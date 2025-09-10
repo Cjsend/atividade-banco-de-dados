@@ -1,7 +1,5 @@
 import sqlite3
-
-
-con = sqlite3.connect("meubanco.db")
+con = sqlite3.connect("escola.db")
 cur = con.cursor()
 
 
@@ -14,16 +12,25 @@ CREATE TABLE IF NOT EXISTS usuarios (
 """)
 con.commit()
 
+cur.execute("""
+CREATE TABLE IF NOT EXISTS alunos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    idade INTEGER,
+    curso TEXT
+)
+""")
+con.commit();
 
-cur.execute("INSERT INTO usuarios (nome, email) VALUES (?, ?)", ("Joao", "joao@email.com"))
-cur.execute("INSERT INTO usuarios (nome, email) VALUES (?, ?)", ("Maria", "maria@email.com"))
+
+cur.execute("INSERT INTO alunos (nome, idade, curso) VALUES (?, ?, ?)", ("Carlos", 20, "Informática"))
+cur.execute("INSERT INTO alunos (nome, idade, curso) VALUES (?, ?, ?)", ("Pedro", 22, "Redes"))
 con.commit()
 
 
-cur.execute("SELECT * FROM usuarios")
-usuarios = cur.fetchall()
-
-for usuario in usuarios:
-    print(usuario)
+cur.execute("SELECT * FROM alunos")
+alunos = cur.fetchall()
+for aluno in alunos:
+    print(aluno)
 
 con.close()
